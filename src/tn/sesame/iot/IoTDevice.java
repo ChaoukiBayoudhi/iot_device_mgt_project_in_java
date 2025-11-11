@@ -73,5 +73,73 @@ public class IoTDevice {
     }
 
     //methods
+    public boolean connect() throws Exception{
+        if(!connected) {
+            IO.println("Connecting new Device ...");
+            Thread.sleep(5000);
+            IO.println("Device [id ="+id+", firmware version ="+firmwareVersion+ ", model = "+model+"] is connected successfully.");
+            connected=true;
+            return true;
+        }
+        return false;
+
+    }
+    public boolean connect(int timeout) throws  Exception{
+        long startTime=System.currentTimeMillis();
+        if(!connected) {
+            IO.println("Try Connecting new Device ...");
+            Thread.sleep(5000);
+            long endTime = System.currentTimeMillis();
+            if (endTime - startTime < timeout) {
+                IO.println("Device [id =" + id + ", firmware version =" + firmwareVersion + ", model = " + model + "] is connected successfully.");
+                connected = true;
+            } else {
+                IO.println("Timeout ! The device is not connected.");
+                connected = false;
+            }
+        }
+            return connected;
+
+    }
+    public boolean connect(String protocol, int timeout) throws Exception{
+        long startTime=System.currentTimeMillis();
+        if(!connected) {
+            IO.println("Try Connecting new Device ...");
+            Thread.sleep(5000);
+            long endTime = System.currentTimeMillis();
+            if (endTime - startTime < timeout) {
+                IO.println("Device [id =" + id + ", firmware version =" + firmwareVersion + ", model = " + model + "] is connected successfully on the protocol "+ protocol);
+                connected = true;
+            } else {
+                IO.println("Timeout ! The device is not connected.");
+                connected = false;
+            }
+        }
+        return connected;
+
+    }
+
+    public void disconnect(){
+        if(connected) {
+            connected = false;
+            IO.println("Device [id =" + id + ", firmware version =" + firmwareVersion + ", model = " + model + "] is disconnected.");
+        }
+        else
+            IO.println("Already disconnected.");
+    }
+
+    public boolean toggleConnection()throws Exception
+    {
+        if(connected)
+            disconnect();
+        else
+            connect();
+        return connected;
+
+    }
+
+    public boolean reconnect(int maxRetries){
+
+    }
 
 }
